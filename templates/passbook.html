@@ -1,0 +1,82 @@
+<!-- templates/passbook.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Passbook</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .passbook-container {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+    }
+
+    th, td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th {
+      background-color: #0078d4;
+      color: white;
+      font-weight: 600;
+    }
+
+    tr:hover {
+      background-color: #f0f8ff;
+      transition: background-color 0.3s ease;
+    }
+
+    .date-cell {
+      letter-spacing: 1px;
+      font-weight: 500;
+      color: #444;
+    }
+
+    .credit {
+      color: #107c10;
+      font-weight: bold;
+    }
+
+    .debit {
+      color: #d83b01;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  {% include '_navbar.html' %}
+
+  <div class="passbook-container">
+    <h2>📒 Passbook for Account {{ account_no }}</h2>
+    <table>
+      <tr><th>Date</th><th>Type</th><th>Amount</th></tr>
+      {% for txn in transactions %}
+      <tr>
+        <td class="date-cell">{{ txn[3].strftime('%d - %m - %y') }}</td>
+        <td class="{{ 'credit' if txn[2] == 'credit' else 'debit' }}">{{ txn[2].capitalize() }}</td>
+        <td>₹{{ txn[1] }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</body>
+</html>

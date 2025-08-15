@@ -1,0 +1,154 @@
+<!-- templates/transaction_form.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Make a Transaction</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    .form-container {
+      max-width: 400px;
+      margin: 80px auto;
+      padding: 30px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 25px;
+      font-size: 24px;
+    }
+
+    .account-info {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #004080;
+      background-color: #e6f0ff;
+      padding: 12px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 120, 212, 0.2);
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #555;
+    }
+
+    input[type="number"],
+    input[type="date"],
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 15px;
+      background-color: #fdfdfd;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 25px;
+      background-color: #0078d4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #005fa3;
+    }
+
+    .cancel-link {
+      display: block;
+      margin-top: 15px;
+      text-align: center;
+      color: #0078D4;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .cancel-link:hover {
+      text-decoration: underline;
+    }
+
+    .flash {
+      background: #ffeeba;
+      padding: 10px;
+      border: 1px solid #f0c36d;
+      border-radius: 4px;
+      margin: 20px auto;
+      max-width: 400px;
+      color: #856404;
+      text-align: center;
+    }
+
+    .flash::before {
+      content: "⚠️ ";
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  {% include '_navbar.html' %}
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="flash">
+        {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="form-container">
+    <h2>💸 Make a Transaction</h2>
+    <div class="account-info">
+      Account Number: {{ session['username'] }}
+    </div>
+
+    <form action="{{ url_for('transaction') }}" method="post">
+      <label for="amount">💰 Amount:</label>
+      <input type="number" name="amount" required>
+
+      <label for="type">🔄 Transaction Type:</label>
+      <select name="type" required>
+        <option value="deposit">Deposit</option>
+        <option value="withdraw">Withdraw</option>
+      </select>
+
+      <label for="date">📅 Transaction Date:</label>
+      <input type="date" name="date" value="{{ current_date }}">
+
+      <button type="submit">Submit Transaction</button>
+    </form>
+
+    <a href="{{ url_for('home') }}" class="cancel-link">← Cancel and return home</a>
+  </div>
+</body>
+</html>

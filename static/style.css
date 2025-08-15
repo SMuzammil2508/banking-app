@@ -1,0 +1,190 @@
+/* === Reset & Base Styles === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #f0f4f8, #d9e2ec);
+  color: #333;
+  text-align: center;
+  padding: 50px;
+}
+
+/* === Headings === */
+h1 {
+  color: #0078D4;
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #2c3e50;
+}
+
+/* === Container === */
+.container {
+  max-width: 600px;
+  margin: 80px auto;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* === Form Elements === */
+.form-box {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="password"] {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+}
+
+/* === Buttons === */
+button,
+.nav-card,
+ul li a {
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button {
+  background-color: #0078D4;
+  color: white;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #005a9e;
+}
+
+form button {
+  background-color: #e74c3c;
+}
+
+form button:hover {
+  background-color: #c0392b;
+}
+
+.edit-btn {
+  background-color: #0078d4;
+  color: white;
+  padding: 6px 12px;
+  margin-right: 5px;
+}
+
+.delete-btn {
+  background-color: #d83b01;
+  color: white;
+  padding: 6px 12px;
+}
+
+/* === Navigation Cards === */
+.nav-card {
+  display: inline-block;
+  margin-top: 10px;
+  background-color: #0078D4;
+  color: white;
+  text-decoration: none;
+}
+
+.nav-card:hover {
+  background-color: #005a9e;
+}
+
+/* === Lists & Links === */
+ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+}
+
+li {
+  margin: 15px 0;
+  font-size: 16px;
+}
+
+ul li a {
+  text-decoration: none;
+  font-size: 18px;
+  color: #0077cc;
+  border: 2px solid #0077cc;
+  display: inline-block;
+}
+
+ul li a:hover {
+  background-color: #0077cc;
+  color: #fff;
+}
+
+/* === Flash Messages === */
+.flash {
+  background: #ffeeba;
+  padding: 10px;
+  border: 1px solid #f0c36d;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  color: #856404;
+}
+
+.flash::before {
+  content: "✅ ";
+  font-weight: bold;
+}
+
+/* === Table Styling === */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+tr:hover {
+  background-color: #f0f8ff;
+}
+
+/* === Utility Classes === */
+.text-center {
+  text-align: center;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.passbook-link {
+  font-weight: bold;
+  color: #0078D4;
+  text-decoration: none;
+}
+
+.passbook-link:hover {
+  text-decoration: underline;
+}

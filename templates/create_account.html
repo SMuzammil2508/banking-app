@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create Account</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h2>🆕 Create a New Account</h2>
+    <form action="/create_account" method="post" class="form-box">
+      <label for="account_no">Account Number:</label>
+      <input type="number" name="account_no" required>
+
+      <label for="name">Full Name:</label>
+      <input type="text" name="name" required>
+
+      <label for="dob">Date of Birth:</label>
+      <input type="date" name="dob" required>
+
+      <button type="submit">Create Account</button>
+    </form>
+    <div class="nav-links">
+      <a href="/">🔙 Back to Login</a>
+    </div>
+  </div>
+</body>
+</html>

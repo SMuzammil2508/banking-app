@@ -1,0 +1,13 @@
+<nav style="background-color: #f8f9fa; padding: 10px 20px; border-bottom: 1px solid #ddd;">
+  <a href="{{ url_for('home') }}" style="margin-right: 15px;">🏠 Home</a>
+  <a href="{{ url_for('passbook') }}" style="margin-right: 15px;">📒 Passbook</a>
+  <a href="{{ url_for('transaction_form') }}" style="margin-right: 15px;">💸 Transaction</a>
+  {% if session.get('is_admin') %}
+    <a href="{{ url_for('admin_dashboard') }}" style="margin-right: 15px;">🛠 Admin</a>
+  {% endif %}
+  <form method="post" action="{{ url_for('logout') }}" style="display:inline;">
+    <button style="float: right; background-color: #d83b01; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">
+      🚪 Logout
+    </button>
+  </form>
+</nav>

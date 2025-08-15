@@ -1,0 +1,58 @@
+<!-- templates/transaction_failed.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Transaction Failed</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff5f5;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      padding: 60px;
+      text-align: center;
+    }
+    h2 {
+      color: #d83b01;
+      font-size: 32px;
+      margin-bottom: 20px;
+      animation: shake 0.5s ease-in-out;
+    }
+    p {
+      font-size: 18px;
+      color: #333;
+    }
+    .links a {
+      margin: 0 12px;
+      text-decoration: none;
+      color: #0078D4;
+      font-weight: bold;
+    }
+    .links a:hover {
+      text-decoration: underline;
+    }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+  </style>
+</head>
+<body>
+  {% include '_navbar.html' %}
+
+  <div class="container">
+    <h2>❌ Transaction Failed</h2>
+    <p>{{ message }}</p>
+    <div class="links">
+      <a href="{{ url_for('transaction_form') }}">🔁 Try Again</a>
+      <a href="{{ url_for('passbook') }}">📒 View Passbook</a>
+      <a href="{{ url_for('home') }}">🏠 Go to Homepage</a>
+    </div>
+  </div>
+</body>
+</html>

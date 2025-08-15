@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h2>🔐 Login to Muzammil's Banking App</h2>
+    <form action="/login" method="post" class="form-box">
+      <label for="username">Username:</label>
+      <input type="text" name="username" required>
+
+      <label for="password">Password:</label>
+      <input type="password" name="password" required>
+
+      <button type="submit">Login</button>
+    </form>
+
+    <hr>
+
+    <h3>New Here?</h3>
+    <a href="/create_account_form" class="nav-card">Create a New Account</a>
+  </div>
+</body>
+</html>

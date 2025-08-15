@@ -1,0 +1,64 @@
+<!-- templates/home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .welcome-container {
+      max-width: 600px;
+      margin: 80px auto;
+      padding: 40px;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+
+    #balance-section {
+      margin-bottom: 30px;
+    }
+
+    #balance-display {
+      font-size: 18px;
+      color: #107c10;
+      margin-top: 10px;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  {% include '_navbar.html' %}
+
+  <div class="welcome-container">
+    <div id="balance-section">
+      <button onclick="showBalance()" id="balance-btn">💰 Check Balance</button>
+      <p id="balance-display" style="display: none;">Your current balance is ₹{{ balance }}</p>
+    </div>
+
+    <h2>👋 Good {{ greeting }}, {{ name }}</h2>
+
+    <ul>
+      <li><a href="{{ url_for('passbook') }}">📒 View Passbook</a></li>
+      <li><a href="{{ url_for('transaction_form') }}">💸 Make a Transaction</a></li>
+    </ul>
+
+    <form action="{{ url_for('logout') }}" method="post">
+      <button type="submit">🚪 Logout</button>
+    </form>
+  </div>
+
+  <script>
+    function showBalance() {
+      document.getElementById('balance-btn').style.display = 'none';
+      document.getElementById('balance-display').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

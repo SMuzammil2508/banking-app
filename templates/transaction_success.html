@@ -1,0 +1,47 @@
+<!-- templates/transaction_success.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Transaction Success</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      padding: 60px;
+      text-align: center;
+    }
+    h2 {
+      color: #107c10;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    .links a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #0078D4;
+      font-weight: bold;
+    }
+    .links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  {% include '_navbar.html' %}
+
+  <div class="container">
+    <h2>{{ message }}</h2>
+    <div class="links">
+      <a href="{{ url_for('transaction_form') }}">💸 Make another transaction</a>
+      <a href="{{ url_for('home') }}">🏠 Go to homepage</a>
+      <a href="{{ url_for('passbook') }}">📒 View Passbook</a>
+    </div>
+  </div>
+
+  {% include '_back_home.html' %}
+</body>
+</html>

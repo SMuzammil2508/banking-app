@@ -1,0 +1,64 @@
+<!-- templates/404.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Page Not Found</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      padding: 60px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 48px;
+      color: #d83b01;
+      animation: pulse 1.5s infinite;
+    }
+    p {
+      font-size: 18px;
+      color: #333;
+    }
+    a.button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #0078D4;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+    }
+    a.button:hover {
+      background-color: #005a9e;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  {% include '_navbar.html' %}
+
+  <div class="container">
+    <h1>🚫 404</h1>
+    <p>Oops! The page you're looking for doesn't exist or has been moved.</p>
+    <a href="{{ url_for('home') }}" class="button">🔙 Back to Homepage</a>
+    <br><br>
+    <p style="color: #666;">Or maybe you were trying to find one of these:</p>
+    <ul style="list-style: none; padding: 0;">
+      <li><a href="{{ url_for('passbook') }}">📒 View Passbook</a></li>
+      <li><a href="{{ url_for('transaction_form') }}">💸 Make a Transaction</a></li>
+      {% if session.get('is_admin') %}
+        <li><a href="{{ url_for('admin_dashboard') }}">🛠 Admin Dashboard</a></li>
+      {% endif %}
+    </ul>
+  </div>
+</body>
+</html>
