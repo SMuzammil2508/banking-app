@@ -8,6 +8,9 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'
 setup_database()
 
+
+
+
 # 🔐 Login required decorator
 def login_required(f):
     @wraps(f)
@@ -251,6 +254,25 @@ def sync_users_to_accounts():
     db.commit()
     flash(f"{created} missing accounts created from users.")
     return redirect(url_for('admin_dashboard'))
+
+#transaction_to_members
+@app.route('/verify_recipient', methods=['POST'])
+@login_required
+def verify_recipient():
+    account_no = request.form['recipient_account_no'].strip()
+    full_name = request.form['recipient_name'].strip()
+
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT name FROM accounts WHERE account_no = ?", (account_no,))
+    result = cursor.fetchone()
+
+    if result and result['name'].lower() == full_name.lower():
+        flash(f"✅ Account verified: {full_name}", "success")
+    else:
+        flash("❌ No matching account found.", "danger")
+
+    return redirect(url_for('transaction_form'))
 
 # 📒 Passbook
 @app.route('/passbook')

@@ -15,7 +15,7 @@
 
     .form-container {
       max-width: 400px;
-      margin: 80px auto;
+      margin: 40px auto;
       padding: 30px;
       background-color: #fff;
       border-radius: 10px;
@@ -56,6 +56,7 @@
     }
 
     input[type="number"],
+    input[type="text"],
     input[type="date"],
     select {
       width: 100%;
@@ -111,6 +112,13 @@
       content: "⚠️ ";
       font-weight: bold;
     }
+
+    .section-divider {
+      margin: 40px 0 20px;
+      text-align: center;
+      font-weight: bold;
+      color: #666;
+    }
   </style>
 </head>
 <body>
@@ -125,6 +133,19 @@
       </div>
     {% endif %}
   {% endwith %}
+
+  <div class="form-container">
+    <h2>🔍 Verify Recipient</h2>
+    <form action="{{ url_for('verify_recipient') }}" method="post">
+      <label for="recipient_account_no">Recipient Account Number:</label>
+      <input type="text" name="recipient_account_no" required>
+
+      <label for="recipient_name">Recipient Full Name:</label>
+      <input type="text" name="recipient_name" required>
+
+      <button type="submit">Verify Recipient</button>
+    </form>
+  </div>
 
   <div class="form-container">
     <h2>💸 Make a Transaction</h2>
