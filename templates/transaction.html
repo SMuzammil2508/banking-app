@@ -134,6 +134,7 @@
     {% endif %}
   {% endwith %}
 
+  {% if mode == 'online' %}
   <div class="form-container">
     <h2>🔍 Verify Recipient</h2>
     <form action="{{ url_for('verify_recipient') }}" method="post">
@@ -146,6 +147,7 @@
       <button type="submit">Verify Recipient</button>
     </form>
   </div>
+{% endif %}
 
   <div class="form-container">
     <h2>💸 Make a Transaction</h2>
@@ -171,5 +173,7 @@
 
     <a href="{{ url_for('home') }}" class="cancel-link">← Cancel and return home</a>
   </div>
+
+  
 </body>
 </html>

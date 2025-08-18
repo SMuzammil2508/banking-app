@@ -1,0 +1,217 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Beneficiary</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f9fafc;
+      color: #2d3436;
+      padding: 40px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 32px;
+      margin-bottom: 32px;
+      border: 1px solid #e6eaf0;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+    }
+
+    h2, h3 {
+      text-align: center;
+      margin-bottom: 24px;
+      font-weight: 600;
+      font-size: 1.4rem;
+      color: #1e2a35;
+      letter-spacing: 0.3px;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: 500;
+      color: #555;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-top: 6px;
+      border-radius: 10px;
+      border: 1px solid #ccd4e0;
+      font-size: 15px;
+      background-color: #fff;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input:focus {
+      border-color: #0056b3;
+      box-shadow: 0 0 0 3px rgba(0,86,179,0.15);
+      outline: none;
+    }
+
+    .primary-btn, .secondary-btn {
+      margin-top: 28px;
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-align: center;
+      display: inline-block;
+      text-decoration: none;
+    }
+
+    .primary-btn {
+      background: #0056b3;
+      color: #fff;
+    }
+
+    .primary-btn:hover {
+      background: #004494;
+    }
+
+    .secondary-btn {
+      background: #f1f3f6;
+      color: #333;
+      margin-top: 12px;
+    }
+
+    .secondary-btn:hover {
+      background: #e1e4e8;
+    }
+
+    .flash {
+      padding: 14px 18px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    .flash.success { background-color: #e6f4ea; color: #2e7d32; border: 1px solid #c8e6c9; }
+    .flash.error { background-color: #fdecea; color: #c62828; border: 1px solid #f5c6cb; }
+    .flash.warning { background-color: #fff8e1; color: #f57c00; border: 1px solid #ffe0b2; }
+    .flash.info { background-color: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .beneficiary-list ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .beneficiary-list li {
+      background-color: #fdfdfd;
+      padding: 16px 20px;
+      border-radius: 12px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid #e6eaf0;
+      transition: background-color 0.2s ease;
+    }
+
+    .beneficiary-list li:hover {
+      background-color: #f4f6fa;
+    }
+
+    .delete-button {
+      background-color: #c0392b;
+      color: white;
+      border: none;
+      padding: 9px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .delete-button:hover {
+      background-color: #a6281c;
+    }
+
+    .empty-message {
+      text-align: center;
+      font-style: italic;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h2>➕ Add Beneficiary</h2>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <form method="post">
+        <label for="name">Name</label>
+        <input type="text" name="name" required>
+
+        <label for="account_no">Account Number</label>
+        <input type="text" name="account_no" required>
+
+        <button type="submit" class="primary-btn">Add Beneficiary</button>
+      </form>
+
+      <!-- Back to Home Button -->
+      <a href="{{ url_for('home') }}" class="secondary-btn">🏠 Back to Home</a>
+    </div>
+
+    <div class="card beneficiary-list">
+      <h3>👥 Your Beneficiaries</h3>
+      {% if beneficiaries %}
+      <ul>
+        {% for b in beneficiaries %}
+          <li>
+            <span><strong>{{ b.name }}</strong> — {{ b.account_no }}</span>
+            <form action="{{ url_for('delete_beneficiary') }}" method="POST" class="delete-form">
+              <input type="hidden" name="account_no" value="{{ b.account_no }}">
+              <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete {{ b.name }}?');">🗑️ Delete</button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="empty-message">No beneficiaries added yet.</p>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>

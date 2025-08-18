@@ -188,3 +188,207 @@ tr:hover {
 .passbook-link:hover {
   text-decoration: underline;
 }
+
+
+
+/* Reset & Base */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #e0eafc, #cfdef3);
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+h2 {
+  text-align: center;
+  color: #1a237e;
+  margin-bottom: 25px;
+  font-size: 26px;
+}
+
+/* Container */
+.form-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Labels & Inputs */
+label {
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #333;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease;
+}
+
+input:focus, select:focus {
+  border-color: #1976d2;
+  outline: none;
+}
+
+/* Buttons */
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 25px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0d47a1;
+}
+
+/* Account Info */
+.account-info {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #0d47a1;
+  background-color: #e3f2fd;
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(33, 150, 243, 0.2);
+}
+
+/* Flash Messages */
+.flash {
+  background: #fff3cd;
+  padding: 12px;
+  border: 1px solid #ffeeba;
+  border-radius: 6px;
+  margin: 20px auto;
+  max-width: 600px;
+  color: #856404;
+  text-align: center;
+  font-size: 15px;
+}
+
+.flash::before {
+  content: "🔐 ";
+  font-weight: bold;
+}
+
+/* Cancel Link */
+.cancel-link {
+  display: block;
+  margin-top: 15px;
+  text-align: center;
+  color: #1976d2;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.cancel-link:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .form-container {
+    margin: 20px;
+    padding: 20px;
+  }
+}
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.6);
+}
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 30px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 0 10px #000;
+}
+.option-btn {
+  display: block;
+  margin: 15px auto;
+  padding: 15px;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  width: 80%;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.deposit-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+.withdraw-btn {
+  background-color: #f44336;
+  color: white;
+}
+.option-btn:hover {
+  transform: scale(1.05);
+}
+
+.transaction-options {
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #f4f8ff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 120, 212, 0.1);
+}
+
+.transaction-options h2 {
+  margin-bottom: 20px;
+  color: #004080;
+}
+
+.option-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 20px;
+  background-color: #0078d4;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #005fa3;
+}

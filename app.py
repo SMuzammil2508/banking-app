@@ -1,14 +1,18 @@
 from flask import Flask, request, render_template, redirect, url_for, session, flash
 from functools import wraps
-from db import setup_database, get_db
+from db import setup_database, get_db, close_db
 from models import add_transaction, view_passbook
 from datetime import datetime
+import sqlite3
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'
+
+# Ensure tables are created and WAL mode is enabled
 setup_database()
 
-
+# Clean up DB connections after each request
+app.teardown_appcontext(close_db)
 
 
 # 🔐 Login required decorator
@@ -34,18 +38,21 @@ def login():
         user = cursor.fetchone()
 
         if user:
+            # ✅ Store user_id for session-based access
+            session['user_id'] = user['id']
             session['username'] = username
             session['is_admin'] = bool(user['is_admin'])
 
+            # Optional: Fetch account name if account_no == username
             cursor.execute("SELECT name FROM accounts WHERE account_no = ?", (username,))
             account = cursor.fetchone()
             if account:
                 session['name'] = account['name']
 
-            flash("Login successful.")
+            flash("✅ Login successful.", "success")
             return redirect(url_for('admin_dashboard') if session['is_admin'] else url_for('home'))
         else:
-            flash("Invalid credentials.")
+            flash("❌ Invalid credentials.", "error")
             return redirect(url_for('login'))
 
     return render_template('login.html')
@@ -192,7 +199,9 @@ def update_account(account_no):
 @app.route('/transaction_form')
 @login_required
 def transaction_form():
-    return render_template('transaction.html')
+    mode = request.args.get('mode', 'cash')  # default to cash
+    current_date = datetime.now().strftime('%Y-%m-%d')
+    return render_template('transaction.html', current_date=current_date, mode=mode)
 
 # 💸 Submit transaction
 @app.route('/transaction', methods=['POST'])
@@ -254,6 +263,78 @@ def sync_users_to_accounts():
     db.commit()
     flash(f"{created} missing accounts created from users.")
     return redirect(url_for('admin_dashboard'))
+
+# ADD BENEFICIARY
+# ADD BENEFICIARY
+@app.route('/add_beneficiary', methods=['GET', 'POST'])
+def add_beneficiary():
+    if 'user_id' not in session:
+        flash('Please log in to manage beneficiaries.', 'error')
+        return redirect(url_for('login'))
+
+    db = get_db()  # use helper
+    cursor = db.cursor()
+
+    if request.method == 'POST':
+        account_no = request.form['account_no'].strip()
+        name = request.form.get('name', '').strip()
+
+        # 1️⃣ Check if account exists
+        cursor.execute('SELECT name FROM accounts WHERE account_no = ?', (account_no,))
+        account = cursor.fetchone()
+
+        if not account:
+            flash('❌ Account number does not exist.', 'error')
+        elif account['name'].strip().lower() != name.lower():
+            flash('⚠️ Name does not match account holder.', 'warning')
+        else:
+            # 2️⃣ Check if already added
+            cursor.execute('SELECT * FROM beneficiaries WHERE user_id = ? AND account_no = ?', 
+                           (session['user_id'], account_no))
+            existing = cursor.fetchone()
+
+            if existing:
+                flash('⚠️ Beneficiary already exists.', 'info')
+            else:
+                # 3️⃣ Insert beneficiary
+                cursor.execute(
+                    'INSERT INTO beneficiaries (user_id, name, account_no) VALUES (?, ?, ?)',
+                    (session['user_id'], name, account_no)
+                )
+                db.commit()
+                flash(f'✅ Beneficiary "{name}" added successfully!', 'success')
+
+    # 4️⃣ Fetch current beneficiaries
+    cursor.execute('SELECT name, account_no FROM beneficiaries WHERE user_id = ?', 
+                   (session['user_id'],))
+    beneficiaries = cursor.fetchall()
+
+    return render_template('add_beneficiary.html', beneficiaries=beneficiaries)
+
+# delete beneficiary
+@app.route('/delete-beneficiary', methods=['POST'])
+def delete_beneficiary():
+    db = get_db()
+    user_id = session.get('user_id')
+
+    if not user_id:
+        flash("🔒 Session expired. Please log in again.", "error")
+        return redirect(url_for('login'))
+
+    account_no = request.form.get('account_no')
+
+    if not account_no:
+        flash("⚠️ No account number provided.", "warning")
+        return redirect(url_for('add_beneficiary'))
+
+    db.execute(
+        "DELETE FROM beneficiaries WHERE user_id = ? AND account_no = ?",
+        (user_id, account_no)
+    )
+    db.commit()
+
+    flash(f"✅ Beneficiary with account {account_no} deleted.", "success")
+    return redirect(url_for('add_beneficiary'))
 
 #transaction_to_members
 @app.route('/verify_recipient', methods=['POST'])

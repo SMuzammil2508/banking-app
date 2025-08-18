@@ -43,6 +43,15 @@ def add_transaction(account_no, amount, txn_type, txn_date=None):
     db.commit()
     return None
 
+def add_transaction(account_no, amount, txn_type, date):
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("""
+        INSERT INTO transactions (account_no, amount, type, date)
+        VALUES (?, ?, ?, ?)
+    """, (account_no, amount, txn_type, date))
+    db.commit()
+
 # 📒 View passbook
 def view_passbook(account_no):
     db = get_db()
